@@ -1,0 +1,70 @@
+body {
+    background-color: #333;
+    /* height: 100vh; */
+    color: #fff;
+}
+
+.homeHeadingAnimation {
+    position: relative;
+}
+
+.homeHeadingAnimation::before {
+    content: '';
+    position: absolute;
+    height: 3px;
+    background: #03a9f4;
+    margin-top: 10px;
+    top: 100%;
+    animation: homePageHeadingAnimation 4s forwards;
+    animation-iteration-count: infinite;
+}
+
+.homePageHeadingArrow {
+    animation: arrowColorChange 4s forwards;
+    animation-iteration-count: infinite;
+}
+
+@keyframes arrowColorChange {
+
+    0%,
+    50%,
+    85% {
+        color: #fff;
+    }
+
+    100% {
+        color: #03a9f4;
+    }
+
+}
+
+.anim-delay-6000ms {
+    animation-delay: 6s;
+}
+
+@keyframes homePageHeadingAnimation {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.form-control {
+    background: #333;
+    color: white;
+    /* border: none; */
+}
+
+.form-control:focus {
+    background-color: #333;
+    color: #fff;
+}
+/* 
+.form-floating>.form-control:not(:placeholder-shown)~label::after,
+.form-floating>.form-select~label::after {
+    background-color: #333;
+    color: #fff;
+} */
