@@ -26,9 +26,18 @@ const Header = () => {
             id="navbarSupportedContent"
           ></div>
           <div className="">
-            <button className="btn btn-outline-light" onClick={()=>{
-              navigate("/login");
-            }}>Login</button>
+            <button
+              className="btn btn-outline-light"
+              onClick={(e) => {
+                if (sessionStorage.getItem("user") === null) navigate("/login");
+                else {
+                  sessionStorage.clear();
+                  e.target.innerText = "login";
+                }
+              }}
+            >
+              {sessionStorage.getItem("user") !== null ? "logout" : "login"}
+            </button>
           </div>
         </div>
       </nav>

@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [loginDetails, setLoginDetails] = useState({});
   const [users, setusers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://127.1.1.1:8000/Routes/user")
-      .then((res) => res.json())
-      .then((data) => setusers(data));
-    //   console.warn(users);
+    fetch("http://127.0.0.1:8000/Routes/user")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setusers(data);
+      });
   }, []);
 
   return (
@@ -31,19 +34,6 @@ const Login = () => {
         </div>
         <div className="form-floating mb-3 w-50">
           <input
-            type="email"
-            className="form-control"
-            id="floatingInput2"
-            placeholder="name@example.com"
-            value={loginDetails.user_Email}
-            onChange={(e) => {
-              setLoginDetails({ ...loginDetails, user_Email: e.target.value });
-            }}
-          />
-          <label for="floatingInput2">Email address</label>
-        </div>
-        <div className="form-floating mb-3 w-50">
-          <input
             type="password"
             className="form-control"
             id="floatingPassword1"
@@ -59,20 +49,23 @@ const Login = () => {
           <button
             className="btn btn-outline-light fw-bold"
             onClick={(e) => {
-              let arr = users.filter((user) => {
-                return (
-                    user.user_Name === loginDetails.name &&
-                  user.user_Email === loginDetails.user_Email &&
+              users.forEach((user) => {
+                if (
+                  user.user_Name === loginDetails.user_Name &&
                   user.password === loginDetails.password
-                );
+                ) {
+                  navigate("/");
+                  sessionStorage.setItem("userId", user.userId);
+                  sessionStorage.setItem("user", user.user_Name);
+                  sessionStorage.setItem("password", user.password);
+                }
               });
-              if (arr.length === 1) navigate("/");
-              e.target.value = "logout";
             }}
           >
             Login
           </button>
         </div>
+        <div><Link to="/signup" className="text-white">Not have an account?</Link></div>
       </div>
     </div>
   );
