@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/Routes/post")
+    fetch("https://comment-system-backend.onrender.com/Routes/post")
       .then((res) => {
         return res.json();
       })
@@ -23,6 +25,12 @@ const Blogs = () => {
 
   return (
     <>
+      <div className="d-flex justify-content-center align-items-center">
+        <button className="btn btn-outline-info" onClick={()=>{
+          if( sessionStorage.getItem("user") === null ) navigate("/login");
+          else navigate("/addPost");
+        }}>Add Post</button>
+      </div>
       <div className="container my-5">{blogsInHtml}</div>
     </>
   );

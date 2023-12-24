@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [loginDetails, setLoginDetails] = useState({});
   const [users, setusers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/Routes/user")
+    fetch("https://comment-system-backend.onrender.com/Routes/user")
       .then((res) => {
         return res.json();
       })
@@ -58,6 +59,13 @@ const Login = () => {
                   sessionStorage.setItem("userId", user.userId);
                   sessionStorage.setItem("user", user.user_Name);
                   sessionStorage.setItem("password", user.password);
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Login Successfully !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                  });
                 }
               });
             }}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const Blog = ({ blogObj }) => {
   const [commentReply, setCommentReply] = useState("");
@@ -7,21 +8,21 @@ const Blog = ({ blogObj }) => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/Routes/comment")
+    fetch("https://comment-system-backend.onrender.com/Routes/comment")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setComments(data);
       });
-    fetch("http://127.0.0.1:8000/Routes/user")
+    fetch("https://comment-system-backend.onrender.com/Routes/user")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setUsers(data);
       });
-  }, [commentReply]);
+  }, [commentReply,navigate]);
 
   const findNameOfUser = (givenId) => {
     let userName = "";
@@ -47,7 +48,33 @@ const Blog = ({ blogObj }) => {
   return (
     <div>
       <div className="card bg-dark border border-none my-5 text-white">
-        <div className="card-header"></div>
+        <div className="card-header">
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => {
+              if (sessionStorage.getItem("user") === null) navigate("/login");
+              else {
+                fetch(`https://comment-system-backend.onrender.com/Routes/post/${blogObj.postId}`, {
+                  method: "DELETE",
+                }).then((res) => {
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Post Deleted successfully !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                  });
+                  navigate("/");
+                  setTimeout(() => {
+                    navigate("/blogs");
+                  }, 1000);
+                });
+              }
+            }}
+          >
+            Delete post
+          </button>
+        </div>
         <div className="card-body">
           <blockquote className="blockquote mb-0">
             <p>{blogObj.description}</p>
@@ -79,7 +106,7 @@ const Blog = ({ blogObj }) => {
               onClick={() => {
                 if (sessionStorage.getItem("user") === null) navigate("/login");
                 else {
-                  fetch("http://127.0.0.1:8000/Routes/comment", {
+                  fetch("https://comment-system-backend.onrender.com/Routes/comment", {
                     method: "POST",
                     headers: {
                       Accept: "application/json",

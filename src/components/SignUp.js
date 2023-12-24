@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -52,7 +52,7 @@ const SignUp = () => {
           <button
             className="btn btn-outline-light fw-bold"
             onClick={(e) => {
-              fetch("http://127.0.0.1:8000/Routes/user", {
+              fetch("https://comment-system-backend.onrender.com/Routes/user", {
                 method: "POST",
                 headers: {
                   Accept: "application/json",
@@ -63,9 +63,9 @@ const SignUp = () => {
                 Swal.fire({
                   position: "top-end",
                   icon: "success",
-                  title: "Registerd Successfull !",
+                  title: "Registerd Successfully !",
                   showConfirmButton: false,
-                  timer: 1500,
+                  timer: 2500,
                 });
                 setSingupDetails({});
                 navigate("/");
