@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import Comment from "./Comment";
 
 const Blog = ({ blogObj }) => {
   const [commentReply, setCommentReply] = useState("");
@@ -22,7 +23,7 @@ const Blog = ({ blogObj }) => {
       .then((data) => {
         setUsers(data);
       });
-  }, [commentReply,navigate]);
+  }, [commentReply, navigate]);
 
   const findNameOfUser = (givenId) => {
     let userName = "";
@@ -31,32 +32,34 @@ const Blog = ({ blogObj }) => {
     });
     return userName;
   };
+
   let commentsByPost = comments
-    .filter((comment) => comment.postId === blogObj.postId)
+    .filter(
+      (comment) =>
+        comment.postId === blogObj.postId && comment.parentComment_Id === null
+    )
     .map((comment) => {
       return (
         <>
-          <div className="card text-bg-dark mb-3 mx-5 border-light w-50">
-            <div className="card-body">
-              <h5 className="card-title">{findNameOfUser(comment.userId)}</h5>
-              <p className="card-text">{comment.comment_Description}</p>
-            </div>
-          </div>
+          <Comment commentObj={comment} />
         </>
       );
     });
   return (
     <div>
-      <div className="card bg-dark border border-none my-5 text-white">
-        <div className="card-header">
+      <div className="card bg-dark border border-0 my-5 text-white">
+        <div className="card-header d-flex justify-content-between">
           <button
             className="btn btn-outline-danger"
             onClick={() => {
               if (sessionStorage.getItem("user") === null) navigate("/login");
               else {
-                fetch(`https://comment-system-backend.onrender.com/Routes/post/${blogObj.postId}`, {
-                  method: "DELETE",
-                }).then((res) => {
+                fetch(
+                  `https://comment-system-backend.onrender.com/Routes/post/${blogObj.postId}`,
+                  {
+                    method: "DELETE",
+                  }
+                ).then((res) => {
                   Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -72,7 +75,7 @@ const Blog = ({ blogObj }) => {
               }
             }}
           >
-            Delete post
+            <ion-icon name="trash-outline"></ion-icon>
           </button>
         </div>
         <div className="card-body">
@@ -83,11 +86,10 @@ const Blog = ({ blogObj }) => {
             </footer>
           </blockquote>
         </div>
-        <hr />
         <div className="text-center my-3">
           <p>Add Comment</p>
         </div>
-        <div className="d-flex justify-content-start align-items-center">
+        <div className="d-flex justify-content-end me-2 align-items-center">
           <div class="form-floating mb-3 w-50 mx-5">
             <input
               type="text"
@@ -98,7 +100,7 @@ const Blog = ({ blogObj }) => {
                 setCommentReply(e.target.value);
               }}
             />
-            <label for="floatingInput">reply</label>
+            <label for="floatingInput">Comment</label>
           </div>
           <div>
             <button
@@ -106,29 +108,39 @@ const Blog = ({ blogObj }) => {
               onClick={() => {
                 if (sessionStorage.getItem("user") === null) navigate("/login");
                 else {
-                  fetch("https://comment-system-backend.onrender.com/Routes/comment", {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      comment_Description: commentReply,
-                      userId: sessionStorage.getItem("userId"),
-                      upvotes: 0,
-                      downvotes: 0,
-                      postId: blogObj.postId,
-                      parentCommentId: null,
-                      creation_Date: new Date()
-                        .toJSON()
-                        .slice(0, 19)
-                        .replace("T", " "),
-                      modification_Date: new Date()
-                        .toJSON()
-                        .slice(0, 19)
-                        .replace("T", " "),
-                    }),
-                  }).then((res) => {
+                  fetch(
+                    "https://comment-system-backend.onrender.com/Routes/comment",
+                    {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        comment_Description: commentReply,
+                        userId: sessionStorage.getItem("userId"),
+                        upvotes: 0,
+                        downvotes: 0,
+                        postId: blogObj.postId,
+                        parentCommentId: null,
+                        creation_Date: new Date()
+                          .toJSON()
+                          .slice(0, 19)
+                          .replace("T", " "),
+                        modification_Date: new Date()
+                          .toJSON()
+                          .slice(0, 19)
+                          .replace("T", " "),
+                      }),
+                    }
+                  ).then((res) => {
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Comment Deleted successfully !",
+                      showConfirmButton: false,
+                      timer: 2500,
+                    });
                     setCommentReply("");
                   });
                 }

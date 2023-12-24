@@ -17,7 +17,7 @@ const Blogs = () => {
 
   let blogsInHtml = blogs.map((blog) => {
     return (
-      <div className="card bg-dark border border-none my-5 text-white">
+      <div className="card text-center bg-dark border border-none my-5 text-white">
         <Blog blogObj={blog} />
       </div>
     );
