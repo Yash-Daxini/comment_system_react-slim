@@ -62,9 +62,7 @@ body {
     background-color: #333;
     color: #fff;
 }
-/* 
-.form-floating>.form-control:not(:placeholder-shown)~label::after,
-.form-floating>.form-select~label::after {
-    background-color: #333;
-    color: #fff;
-} */
+.placeholder{
+    border-radius: 40px;
+    height: 50px;
+}

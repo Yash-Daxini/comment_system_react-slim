@@ -1,40 +1,15 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ReplyOfComment = ({ commentReplyObj }) => {
   const navigate = useNavigate();
-  //   const [commentReply, setCommentReply] = useState("");
   const [upvotes, setUpvotes] = useState(parseInt(commentReplyObj.upvotes));
   const [downvotes, setDownvotes] = useState(
     parseInt(commentReplyObj.downvotes)
   );
-  //   const [comments, setComments] = useState([]);
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    // fetch("https://comment-system-backend.onrender.com/Routes/comment")
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     setComments(data);
-    //   });
-    fetch("https://comment-system-backend.onrender.com/Routes/user")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setUsers(data);
-      });
-  }, [navigate]);
-  const findNameOfUser = (givenId) => {
-    let userName = "";
-    users.forEach((user) => {
-      if (user.userId === givenId) userName = user.user_Name;
-    });
-    return userName;
-  };
+
   return (
     <div>
       <div
@@ -130,9 +105,7 @@ const ReplyOfComment = ({ commentReplyObj }) => {
               {downvotes}
             </div>
           </div>
-          <h5 className="card-title">
-            {findNameOfUser(commentReplyObj.userId)}
-          </h5>
+          <h5 className="card-title">{commentReplyObj.user_Name}</h5>
           <p className="card-text">{commentReplyObj.comment_Description}</p>
         </div>
       </div>
