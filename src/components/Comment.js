@@ -41,53 +41,53 @@ const Comment = ({ commentObj }) => {
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center gap-5  mb-4">
                 <div className="placeholder-glow w-25 me-5">
-                  <span className="placeholder col-4"></span>
+                  <span className="placeholder col-6"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-2"></span>
+                  <span className="placeholder col-8"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-2"></span>
+                  <span className="placeholder col-8"></span>
                 </div>
               </div>
               <span className="placeholder col-8 h-25"></span>
               <span className="placeholder col-6 h-25 mt-3"></span>
             </div>
             <div className="text-center my-3">
-              <span className="placeholder col-1 h-25"></span>
+              <span className="placeholder col-3 h-25"></span>
             </div>
             <div className="d-flex justify-content-end me-2 align-items-center">
               <div className="form-floating mb-3 w-50 ms-5">
                 <span className="placeholder col-12"></span>
               </div>
               <div className="w-25">
-                <span className="placeholder col-3"></span>
+                <span className="placeholder col-8"></span>
               </div>
             </div>
             <div className="d-flex justify-content-center align-items-center flex-column">
-              <span className="placeholder col-2 h-25"></span>
+              <span className="placeholder col-4 h-25"></span>
               <hr />
-              <div className="mt-1 w-50">
-                <div className="d-flex justify-content-between align-items-center gap-5  mb-4">
+              <div className="mt-1 w-75">
+                <div className="d-flex justify-content-between align-items-center gap-2 mb-4">
                   <div className="placeholder-glow w-25 me-5">
-                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-6"></span>
                   </div>
                   <div className="placeholder-glow w-25">
-                    <span className="placeholder col-2"></span>
+                    <span className="placeholder col-8"></span>
                   </div>
                   <div className="placeholder-glow w-25">
-                    <span className="placeholder col-2"></span>
+                    <span className="placeholder col-8"></span>
                   </div>
                 </div>
-                <span className="placeholder col-8 h-25"></span>
+                <span className="placeholder col-10 h-25"></span>
                 <span className="placeholder col-6 h-25 mt-3"></span>
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="d-flex justify-content-center align-items-center">
-          <div className="card text-bg-dark mb-3 border-light w-75">
+        <div className="container-md">
+          <div className="comment mb-3 border-light w-75 p-3">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center gap-5">
                 <button
@@ -152,8 +152,8 @@ const Comment = ({ commentObj }) => {
                     }}
                   >
                     <ion-icon id="upvote" name="arrow-up-outline"></ion-icon>
+                    <spanc className="ms-2">{upvotes}</spanc>
                   </button>
-                  {upvotes}
                 </div>
                 <div className="">
                   <button
@@ -191,77 +191,74 @@ const Comment = ({ commentObj }) => {
                       id="downvote"
                       name="arrow-down-outline"
                     ></ion-icon>
+                    <spanc className="ms-2">{downvotes}</spanc>
                   </button>
-                  {downvotes}
                 </div>
               </div>
               <h5 className="card-title">{commentObj.user_Name}</h5>
               <p className="card-text">{commentObj.comment_Description}</p>
             </div>
-            <div className="text-center my-3">
-              <p>Add Reply</p>
+          </div>
+          <div className="d-flex justify-content-end me-2 align-items-center">
+            <div className="form-floating mb-3 w-50 mx-5">
+              <input
+                type="text"
+                className="form-control"
+                id="floatingInput"
+                value={commentReply}
+                onChange={(e) => {
+                  setCommentReply(e.target.value);
+                }}
+              />
+              <label for="floatingInput">Reply</label>
             </div>
-            <div className="d-flex justify-content-end me-2 align-items-center">
-              <div className="form-floating mb-3 w-50 mx-5">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="floatingInput"
-                  value={commentReply}
-                  onChange={(e) => {
-                    setCommentReply(e.target.value);
-                  }}
-                />
-                <label for="floatingInput">Reply</label>
-              </div>
-              <div>
-                <button
-                  className="btn btn-outline-light"
-                  onClick={() => {
-                    if (sessionStorage.getItem("user") === null)
-                      navigate("/login");
-                    else {
-                      fetch(
-                        "https://comment-system-backend.onrender.com/Routes/comment",
-                        {
-                          method: "POST",
-                          headers: {
-                            Accept: "application/json",
-                            "Content-type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            comment_Description: commentReply,
-                            userId: sessionStorage.getItem("userId"),
-                            upvotes: 0,
-                            downvotes: 0,
-                            postId: commentObj.postId,
-                            parentComment_Id: commentObj.comment_Id,
-                            creation_Date: new Date()
-                              .toJSON()
-                              .slice(0, 19)
-                              .replace("T", " "),
-                            modification_Date: new Date()
-                              .toJSON()
-                              .slice(0, 19)
-                              .replace("T", " "),
-                          }),
-                        }
-                      ).then((res) => {
-                        setCommentReply("");
-                      });
-                    }
-                  }}
-                >
-                  send
-                </button>
-              </div>
+            <div>
+              <button
+                className="btn btn-outline-light"
+                onClick={() => {
+                  if (sessionStorage.getItem("user") === null)
+                    navigate("/login");
+                  else {
+                    fetch(
+                      "https://comment-system-backend.onrender.com/Routes/comment",
+                      {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          comment_Description: commentReply,
+                          userId: sessionStorage.getItem("userId"),
+                          upvotes: 0,
+                          downvotes: 0,
+                          postId: commentObj.postId,
+                          parentComment_Id: commentObj.comment_Id,
+                          creation_Date: new Date()
+                            .toJSON()
+                            .slice(0, 19)
+                            .replace("T", " "),
+                          modification_Date: new Date()
+                            .toJSON()
+                            .slice(0, 19)
+                            .replace("T", " "),
+                        }),
+                      }
+                    ).then((res) => {
+                      setCommentReply("");
+                    });
+                  }
+                }}
+              >
+                send
+              </button>
             </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
-              <h6 className="my-3">Reply Of comment</h6>
-              <hr />
-              <div className="mt-1">
-                {giveReplysOfEachComment(commentObj.comment_Id)}
-              </div>
+          </div>
+          <div className="d-flex justify-content-center align-items-center flex-column">
+            <h6 className="my-3">Reply Of comment</h6>
+            <hr />
+            <div className="mt-1">
+              {giveReplysOfEachComment(commentObj.comment_Id)}
             </div>
           </div>
         </div>

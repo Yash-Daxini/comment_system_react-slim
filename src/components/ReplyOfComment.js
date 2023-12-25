@@ -13,8 +13,7 @@ const ReplyOfComment = ({ commentReplyObj }) => {
   return (
     <div>
       <div
-        className="card text-bg-dark mb-3 border-light"
-        style={{ width: "300px" }}
+        className="commentReply p-3 mb-5 border-light"
       >
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center gap-5">
@@ -72,8 +71,8 @@ const ReplyOfComment = ({ commentReplyObj }) => {
                 }}
               >
                 <ion-icon name="arrow-up-outline"></ion-icon>
+                <spanc className="ms-2">{upvotes}</spanc>
               </button>
-              {upvotes}
             </div>
             <div className="">
               <button
@@ -101,8 +100,8 @@ const ReplyOfComment = ({ commentReplyObj }) => {
                 }}
               >
                 <ion-icon name="arrow-down-outline"></ion-icon>
+                <spanc className="ms-2">{downvotes}</spanc>
               </button>
-              {downvotes}
             </div>
           </div>
           <h5 className="card-title">{commentReplyObj.user_Name}</h5>

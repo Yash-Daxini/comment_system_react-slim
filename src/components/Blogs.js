@@ -17,7 +17,7 @@ const Blogs = () => {
 
   let blogsInHtml = blogs.map((blog) => {
     return (
-      <div className="card text-center bg-dark border border-none my-5 text-white">
+      <div className="text-center post border border-none my-5 text-white">
         <Blog blogObj={blog} />
       </div>
     );
@@ -25,13 +25,13 @@ const Blogs = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="container-md d-flex justify-content-center align-items-center">
         <button className="btn btn-outline-info" onClick={()=>{
           if( sessionStorage.getItem("user") === null ) navigate("/login");
           else navigate("/addPost");
         }}>Add Post</button>
       </div>
-      <div className="container my-5">{blogsInHtml}</div>
+      <div className="my-5 container">{blogsInHtml}</div>
     </>
   );
 };

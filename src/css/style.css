@@ -1,5 +1,5 @@
 body {
-    background-color: #333;
+    background-color: #222;
     /* height: 100vh; */
     color: #fff;
 }
@@ -53,16 +53,123 @@ body {
 }
 
 .form-control {
-    background: #333;
+    background: #222;
     color: white;
     /* border: none; */
 }
 
 .form-control:focus {
-    background-color: #333;
+    background-color: #222;
     color: #fff;
 }
-.placeholder{
+
+.placeholder {
     border-radius: 40px;
     height: 50px;
+}
+
+/* Post and comment style */
+
+/* .container {
+    width: 600px;
+    background-color: #222;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+} */
+
+.post {
+    background-color: #333;
+    padding: 20px;
+    border-bottom: 1px solid #222;
+}
+
+.post-content {
+    margin-bottom: 20px;
+}
+
+.post textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #555;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 16px;
+}
+
+.comments {
+    padding: 20px;
+}
+
+.comment {
+    margin-bottom: 20px;
+    /* display: flex; */
+    align-items: flex-start;
+    /* border-radius: 8px; */
+    width: 40px;
+    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #444;
+}
+
+.comment-avatar {
+    margin-right: 10px;
+}
+
+.comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-content strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-text {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.commentReply {
+    background: #666;
+    width: 300px;
+    position: relative;
+    left: 100%;
+}
+
+@media (max-width:1000px) {
+    .commentReply {
+        position: relative;
+        left: 60%;
+    }
+}
+@media (max-width:770px) {
+    .commentReply {
+        position: relative;
+        left: 30%;
+    }
+}
+@media (max-width:500px) {
+    .commentReply {
+        position: relative;
+        left: 15%;
+    }
+}
+@media (max-width:400px) {
+    .commentReply {
+        position: relative;
+        left: 5%;
+    }
 }
