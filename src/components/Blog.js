@@ -57,22 +57,22 @@ const Blog = ({ blogObj }) => {
             </div>
           </div>
           <hr></hr>
-          <div className="text-center my-3">
+          <div className="placeholder-glow text-center my-3">
             <span className="placeholder col-2 h-50"></span>
           </div>
-          <div className="placeholder-glow card border border-0 my-5 text-white">
-            <div className="card-header d-flex justify-content-between">
+          <div className="bg-dark placeholder-glow card border border-0 my-5 text-white">
+            <div className="placeholder-glow card-header d-flex justify-content-between">
               <span className="placeholder col-1 h-50"></span>
             </div>
-            <div className="card-body">
+            <div className="card-body placeholder-glow">
               <span className="placeholder col-4 h-50"></span>
               <br></br>
               <span className="placeholder col-3 h-50 my-3"></span>
             </div>
-            <div className="text-center my-3">
+            <div className="text-center my-3 ">
               <span className="placeholder col-2 h-50"></span>
             </div>
-            <div className="d-flex justify-content-end me-2 align-items-center">
+            <div className="d-flex justify-content-end me-2 align-items-center placeholder-glow">
               <div class="placeholder-glow form-floating mb-3 w-50 mx-5">
                 <span className="placeholder col-12 ms-3"></span>
               </div>
