@@ -36,7 +36,7 @@ const Comment = ({ commentObj }) => {
   return (
     <>
       {isLoading ? (
-        <div className="container-md">
+        <div className="container comment">
           <div className="comment mb-3 border-light w-75 p-3">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center gap-5 w-75 ms-5">
@@ -50,18 +50,19 @@ const Comment = ({ commentObj }) => {
                   <span className="placeholder col-6"></span>
                 </div>
               </div>
-              <div className="placeholder-glow w-100 my-3" >
-                  <span className="placeholder col-8 h-25"></span>
-                </div>
+              <div className="placeholder-glow w-100 my-3">
+                <span className="placeholder col-8 h-25"></span>
+              </div>
               <div className="placeholder-glow w-100">
-                  <span className="placeholder col-6 h-25"></span>
-                </div>
+                <span className="placeholder col-6 h-25"></span>
+              </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="container-md">
-          <div className="comment mb-3 border-light w-75 p-3">
+        <div className="container">
+          <div className="comment mb-3 border-light p-3">
+            <span id="commentSpan"></span>
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center gap-5">
                 <button
@@ -228,8 +229,8 @@ const Comment = ({ commentObj }) => {
               </button>
             </div>
           </div>
-          <div className="d-flex justify-content-center align-items-center flex-column">
-            <h6 className="my-3">Reply Of comment</h6>
+          <div className="d-flex justify-content-center align-items-end flex-column">
+            <h6 className="my-5">Reply Of comment</h6>
             <hr />
             <div className="mt-1">
               {giveReplysOfEachComment(commentObj.comment_Id)}

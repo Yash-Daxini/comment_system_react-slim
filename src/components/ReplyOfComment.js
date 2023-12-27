@@ -15,6 +15,7 @@ const ReplyOfComment = ({ commentReplyObj }) => {
       <div
         className="commentReply p-3 mb-5 border-light"
       >
+        <span id="commentReplySpan"></span>
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center gap-5">
             <button
