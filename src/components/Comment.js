@@ -36,52 +36,26 @@ const Comment = ({ commentObj }) => {
   return (
     <>
       {isLoading ? (
-        <div className="placeholder-glow d-flex justify-content-center align-items-center">
-          <div className="card text-bg-dark mb-3 border-light w-75">
+        <div className="container-md">
+          <div className="comment mb-3 border-light w-75 p-3">
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center gap-5  mb-4">
-                <div className="placeholder-glow w-25 me-5">
+              <div className="d-flex justify-content-between align-items-center gap-5 w-75 ms-5">
+                <div className="placeholder-glow w-25">
                   <span className="placeholder col-6"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-8"></span>
+                  <span className="placeholder col-6"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-8"></span>
+                  <span className="placeholder col-6"></span>
                 </div>
               </div>
-              <span className="placeholder col-8 h-25"></span>
-              <span className="placeholder col-6 h-25 mt-3"></span>
-            </div>
-            <div className="text-center my-3">
-              <span className="placeholder col-3 h-25"></span>
-            </div>
-            <div className="d-flex justify-content-end me-2 align-items-center">
-              <div className="form-floating mb-3 w-50 ms-5">
-                <span className="placeholder col-12"></span>
-              </div>
-              <div className="w-25">
-                <span className="placeholder col-8"></span>
-              </div>
-            </div>
-            <div className="d-flex justify-content-center align-items-center flex-column">
-              <span className="placeholder col-4 h-25"></span>
-              <hr />
-              <div className="mt-1 w-75">
-                <div className="d-flex justify-content-between align-items-center gap-2 mb-4">
-                  <div className="placeholder-glow w-25 me-5">
-                    <span className="placeholder col-6"></span>
-                  </div>
-                  <div className="placeholder-glow w-25">
-                    <span className="placeholder col-8"></span>
-                  </div>
-                  <div className="placeholder-glow w-25">
-                    <span className="placeholder col-8"></span>
-                  </div>
+              <div className="placeholder-glow w-100 my-3" >
+                  <span className="placeholder col-8 h-25"></span>
                 </div>
-                <span className="placeholder col-10 h-25"></span>
-                <span className="placeholder col-6 h-25 mt-3"></span>
-              </div>
+              <div className="placeholder-glow w-100">
+                  <span className="placeholder col-6 h-25"></span>
+                </div>
             </div>
           </div>
         </div>

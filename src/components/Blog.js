@@ -35,7 +35,7 @@ const Blog = ({ blogObj }) => {
     <>
       {isLoading ? (
         <div>
-          <div className="placeholder-glow card bg-dark border border-0 my-5 text-white">
+          <div className="placeholder-glow card post border border-0 my-5 text-white">
             <div className="card-header d-flex justify-content-between">
               <span className="placeholder col-1 h-50"></span>
             </div>
@@ -60,7 +60,7 @@ const Blog = ({ blogObj }) => {
           <div className="placeholder-glow text-center my-3">
             <span className="placeholder col-2 h-50"></span>
           </div>
-          <div className="bg-dark placeholder-glow card border border-0 my-5 text-white">
+          <div className="post placeholder-glow card border border-0 my-5 text-white">
             <div className="placeholder-glow card-header d-flex justify-content-between">
               <span className="placeholder col-1 h-50"></span>
             </div>
