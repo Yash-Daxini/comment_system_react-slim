@@ -105,7 +105,7 @@ body {
 
 .comment {
     position: relative;
-    width: 40%;
+    width: 400px;
     display: flex;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -113,6 +113,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #444;
     overflow: visible;
+
 }
 
 .comment-content strong {
@@ -122,18 +123,13 @@ body {
     color: #333;
 }
 
-.commentReply {
-    background: #666;
-    width: 100%;
-    border-radius: 8px;
-}
-
 .comment #commentSpan {
     position: relative;
     display: block;
     padding: 10px;
     color: #fff;
 }
+
 .comment #commentSpan::before {
     content: '';
     position: absolute;
@@ -141,50 +137,34 @@ body {
     border-right: 20px solid transparent;
     border-bottom: 20px solid #444;
     z-index: 9999;
-    top: -30px;
-    left: 0px;
-}
-.commentReply #commentReplySpan {
-    position: relative;
-    display: block;
-    padding: 10px;
-    color: #fff;
-}
-.commentReply #commentReplySpan::before {
-    content: '';
-    position: absolute;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid #666;
-    z-index: 9999;
-    top: -30px;
+    top: -20px;
     left: 0px;
 }
 
 @media (max-width:1000px) {
-    .commentReply {
-        position: relative;
-        left: 60%;
+    .comment {
+        font-size: 10px;
+        width: 350px;
     }
 }
 
 @media (max-width:770px) {
-    .commentReply {
-        position: relative;
-        left: 30%;
+    .comment {
+        font-size: 10px;
+        width: 300px;
     }
 }
 
 @media (max-width:500px) {
-    .commentReply {
-        position: relative;
-        left: 15%;
+    .comment {
+        font-size: 8px;
+        width: 260px;
     }
 }
 
 @media (max-width:400px) {
-    .commentReply {
-        position: relative;
-        left: 5%;
+    .comment {
+        font-size: 8px;
+        width: 260px;
     }
 }

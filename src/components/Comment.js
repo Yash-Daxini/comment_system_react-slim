@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import ReplyOfComment from "./ReplyOfComment";
 
 const Comment = ({ commentObj }) => {
   const navigate = useNavigate();
@@ -11,6 +10,7 @@ const Comment = ({ commentObj }) => {
   const [downvotes, setDownvotes] = useState(parseInt(commentObj.downvotes));
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showReply, setShowReply] = useState(false);
   useEffect(() => {
     fetch("https://comment-system-backend.onrender.com/Routes/comment")
       .then((res) => {
@@ -20,7 +20,7 @@ const Comment = ({ commentObj }) => {
         setComments(data);
         setIsLoading(false);
       });
-  }, [commentReply, navigate]);
+  }, [commentReply, navigate, showReply]);
 
   let giveReplysOfEachComment = (commetnId) => {
     return comments
@@ -28,7 +28,7 @@ const Comment = ({ commentObj }) => {
       .map((comment) => {
         return (
           <>
-            <ReplyOfComment commentReplyObj={comment} />
+            <Comment commentObj={comment} />
           </>
         );
       });
@@ -37,17 +37,17 @@ const Comment = ({ commentObj }) => {
     <>
       {isLoading ? (
         <div className="container comment">
-          <div className="comment mb-3 border-light w-75 p-3">
+          <div className="mb-3 border-light w-100 p-3">
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center gap-5 w-75 ms-5">
+              <div className="d-flex justify-content-between align-items-center gap-5">
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-6"></span>
+                  <span className="placeholder col-8"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-6"></span>
+                  <span className="placeholder col-8"></span>
                 </div>
                 <div className="placeholder-glow w-25">
-                  <span className="placeholder col-6"></span>
+                  <span className="placeholder col-8"></span>
                 </div>
               </div>
               <div className="placeholder-glow w-100 my-3">
@@ -56,17 +56,20 @@ const Comment = ({ commentObj }) => {
               <div className="placeholder-glow w-100">
                 <span className="placeholder col-6 h-25"></span>
               </div>
+              <div className="placeholder-glow w-100 my-3">
+                <span className="placeholder col-2 h-25"></span>
+              </div>
             </div>
           </div>
         </div>
       ) : (
         <div className="container">
-          <div className="comment mb-3 border-light p-3">
+          <div className="comment mb-3 border-light p-2">
             <span id="commentSpan"></span>
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center gap-5">
+              <div className="d-flex justify-content-between align-items-center gap-5 w-100">
                 <button
-                  className="btn btn-outline-danger mb-3"
+                  className="btn btn-outline-danger mb-3 w-25"
                   onClick={() => {
                     if (sessionStorage.getItem("user") === null)
                       navigate("/login");
@@ -84,17 +87,16 @@ const Comment = ({ commentObj }) => {
                           showConfirmButton: false,
                           timer: 2500,
                         });
-                        navigate("/");
                         setTimeout(() => {
                           navigate("/blogs");
-                        }, 1000);
+                        }, 100);
                       });
                     }
                   }}
                 >
                   <ion-icon name="trash-outline"></ion-icon>
                 </button>
-                <div className="">
+                <div className="w-25">
                   <button
                     className="btn btn-dark"
                     onClick={() => {
@@ -127,10 +129,10 @@ const Comment = ({ commentObj }) => {
                     }}
                   >
                     <ion-icon id="upvote" name="arrow-up-outline"></ion-icon>
-                    <spanc className="ms-2">{upvotes}</spanc>
+                    <span className="ms-2">{upvotes}</span>
                   </button>
                 </div>
-                <div className="">
+                <div className="w-25">
                   <button
                     className="btn btn-dark"
                     onClick={() => {
@@ -166,12 +168,41 @@ const Comment = ({ commentObj }) => {
                       id="downvote"
                       name="arrow-down-outline"
                     ></ion-icon>
-                    <spanc className="ms-2">{downvotes}</spanc>
+                    <span className="ms-2">{downvotes}</span>
                   </button>
                 </div>
               </div>
-              <h5 className="card-title">{commentObj.user_Name}</h5>
+              <h5 className="card-title my-2">{commentObj.user_Name}</h5>
               <p className="card-text">{commentObj.comment_Description}</p>
+              {/* <button
+                className="btn text-light"
+                onClick={() => {
+                  // if( inputBoxRef.current === 'none' ){
+                  inputBoxRef.current = "revert";
+                  buttonRef.current = "revert";
+                  // }
+                  // else{
+                  //   inputBoxRef.current = 'none';
+                  //   buttonRef.current = 'none';
+                  // }
+                }}
+              >
+                <ion-icon name="arrow-redo-outline"></ion-icon>
+              </button> */}
+              <button
+                className="btn btn-outline-light"
+                onClick={(e) => {
+                  if (!showReply) {
+                    setShowReply(true);
+                    e.target.innerText = "Hide reply";
+                  } else {
+                    setShowReply(false);
+                    e.target.innerText = "See reply";
+                  }
+                }}
+              >
+                See reply
+              </button>
             </div>
           </div>
           <div className="d-flex justify-content-end me-2 align-items-center">
@@ -229,13 +260,15 @@ const Comment = ({ commentObj }) => {
               </button>
             </div>
           </div>
-          <div className="d-flex justify-content-center align-items-end flex-column">
-            <h6 className="my-5">Reply Of comment</h6>
-            <hr />
-            <div className="mt-1">
-              {giveReplysOfEachComment(commentObj.comment_Id)}
+          {showReply ? (
+            <div className="d-flex justify-content-center align-items-end flex-column">
+              <div className="mt-1">
+                {giveReplysOfEachComment(commentObj.comment_Id)}
+              </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </>
