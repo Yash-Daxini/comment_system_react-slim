@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [singupDetails, setSingupDetails] = useState({});
   return (
     <div>
@@ -30,7 +30,10 @@ const SignUp = () => {
             placeholder="email"
             value={singupDetails.user_Email}
             onChange={(e) => {
-              setSingupDetails({ ...singupDetails, user_Email: e.target.value });
+              setSingupDetails({
+                ...singupDetails,
+                user_Email: e.target.value,
+              });
             }}
           />
           <label for="floatingInput1">User Email</label>
@@ -66,6 +69,13 @@ const SignUp = () => {
                   title: "Registerd Successfully !",
                   showConfirmButton: false,
                   timer: 2500,
+                }).catch(() => {
+                  Swal.fire({
+                    
+                    icon: "error",
+                    title: "Failed to connect",
+                    showConfirmButton: true,
+                  });
                 });
                 setSingupDetails({});
                 navigate("/");

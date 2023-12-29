@@ -50,6 +50,13 @@ const AddPost = () => {
                 title: "Post added Successfully !",
                 showConfirmButton: false,
                 timer: 2500,
+              }).catch(() => {
+                Swal.fire({
+                  
+                  icon: "error",
+                  title: "Failed to connect",
+                  showConfirmButton: true,
+                });
               });
               navigate("/blogs");
             });

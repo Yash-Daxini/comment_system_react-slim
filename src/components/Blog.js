@@ -16,6 +16,14 @@ const Blog = ({ blogObj }) => {
       .then((data) => {
         setComments(data);
         setIsLoading(false);
+      })
+      .catch(() => {
+        Swal.fire({
+          
+          icon: "error",
+          title: "Failed to connect",
+          showConfirmButton: true,
+        });
       });
   }, [commentReply, navigate]);
 
@@ -97,19 +105,28 @@ const Blog = ({ blogObj }) => {
                       {
                         method: "DELETE",
                       }
-                    ).then((res) => {
-                      Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Post Deleted successfully !",
-                        showConfirmButton: false,
-                        timer: 2500,
+                    )
+                      .then((res) => {
+                        Swal.fire({
+                          position: "top-end",
+                          icon: "success",
+                          title: "Post Deleted successfully !",
+                          showConfirmButton: false,
+                          timer: 2500,
+                        });
+                        navigate("/");
+                        setTimeout(() => {
+                          navigate("/blogs");
+                        }, 1000);
+                      })
+                      .catch(() => {
+                        Swal.fire({
+                          
+                          icon: "error",
+                          title: "Failed to connect",
+                          showConfirmButton: true,
+                        });
                       });
-                      navigate("/");
-                      setTimeout(() => {
-                        navigate("/blogs");
-                      }, 1000);
-                    });
                   }
                 }}
               >
@@ -179,6 +196,13 @@ const Blog = ({ blogObj }) => {
                           title: "Comment Deleted successfully !",
                           showConfirmButton: false,
                           timer: 2500,
+                        }).catch(() => {
+                          Swal.fire({
+                            
+                            icon: "error",
+                            title: "Failed to connect",
+                            showConfirmButton: true,
+                          });
                         });
                         setCommentReply("");
                       });

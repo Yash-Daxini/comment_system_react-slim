@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [loginDetails, setLoginDetails] = useState({});
@@ -13,6 +13,14 @@ const Login = () => {
       })
       .then((data) => {
         setusers(data);
+      })
+      .catch(() => {
+        Swal.fire({
+          
+          icon: "error",
+          title: "Failed to connect",
+          showConfirmButton: true,
+        });
       });
   }, []);
 
@@ -73,7 +81,11 @@ const Login = () => {
             Login
           </button>
         </div>
-        <div><Link to="/signup" className="text-white">Not have an account?</Link></div>
+        <div>
+          <Link to="/signup" className="text-white">
+            Not have an account?
+          </Link>
+        </div>
       </div>
     </div>
   );

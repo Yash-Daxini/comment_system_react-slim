@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -14,6 +15,13 @@ const Blogs = () => {
       .then((data) => {
         setBlogs(data);
         setIsLoading(false);
+      }).catch(()=>{
+        Swal.fire({
+          
+          icon: "error",
+          title: "Failed to connect",
+          showConfirmButton: true
+        });
       });
   }, []);
 

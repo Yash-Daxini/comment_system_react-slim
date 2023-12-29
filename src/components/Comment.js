@@ -19,7 +19,14 @@ const Comment = ({ commentObj }) => {
       .then((data) => {
         setComments(data);
         setIsLoading(false);
-      });
+      }).catch(()=>{
+        Swal.fire({
+          
+          icon: "error",
+          title: "Failed to connect",
+          showConfirmButton: true
+        });
+      });;
   }, [commentReply, navigate, showReply]);
 
   let giveReplysOfEachComment = (commetnId) => {
@@ -90,6 +97,13 @@ const Comment = ({ commentObj }) => {
                         setTimeout(() => {
                           navigate("/blogs");
                         }, 100);
+                      }).catch(()=>{
+                        Swal.fire({
+                          
+                          icon: "error",
+                          title: "Failed to connect",
+                          showConfirmButton: true
+                        });
                       });
                     }
                   }}
@@ -99,11 +113,10 @@ const Comment = ({ commentObj }) => {
                 <div className="w-25">
                   <button
                     className="btn btn-dark"
-                    onClick={() => {
+                    onClick={(e) => {
                       if (sessionStorage.getItem("user") === null)
                         navigate("/login");
                       else {
-                        setUpvotes(upvotes + 1);
                         fetch(
                           `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
                           {
@@ -118,28 +131,45 @@ const Comment = ({ commentObj }) => {
                             }),
                           }
                         ).then((res) => {
-                          document.getElementById("upvote").style.color =
-                            "#03a9f4";
-                          setTimeout(() => {
-                            document.getElementById("upvote").style.color =
-                              "#fff";
-                          }, 2000);
-                        });
+                          if (e.target.tagName === "BUTTON") {
+                            e.target.setAttribute("disabled", "");
+                            e.target.style.color = "#03a9f4";
+                          } else if (e.target.tagName === "ION-ICON") {
+                            e.target.parentElement.parentElement.setAttribute(
+                              "disabled",
+                              ""
+                            );
+                            e.target.parentElement.parentElement.style.color =
+                              "#03a9f4";
+                          } else {
+                            e.target.parentElement.setAttribute("disabled", "");
+                            e.target.parentElement.style.color = "#03a9f4";
+                          }
+                          setUpvotes(upvotes + 1);
+                        }).catch(()=>{
+                          Swal.fire({
+                            
+                            icon: "error",
+                            title: "Failed to connect",
+                            showConfirmButton: true
+                          });
+                        });;
                       }
                     }}
                   >
-                    <ion-icon id="upvote" name="arrow-up-outline"></ion-icon>
+                    <span>
+                      <ion-icon name="arrow-up-outline"></ion-icon>
+                    </span>
                     <span className="ms-2">{upvotes}</span>
                   </button>
                 </div>
                 <div className="w-25">
                   <button
                     className="btn btn-dark"
-                    onClick={() => {
+                    onClick={(e) => {
                       if (sessionStorage.getItem("user") === null)
                         navigate("/login");
                       else {
-                        setDownvotes(downvotes + 1);
                         fetch(
                           `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
                           {
@@ -154,41 +184,41 @@ const Comment = ({ commentObj }) => {
                             }),
                           }
                         ).then((res) => {
-                          document.getElementById("downvote").style.color =
-                            "#03a9f4";
-                          setTimeout(() => {
-                            document.getElementById("downvote").style.color =
-                              "#fff";
-                          }, 2000);
+                          if (e.target.tagName === "BUTTON") {
+                            e.target.setAttribute("disabled", "");
+                            e.target.style.color = "#03a9f4";
+                          } else if (e.target.tagName === "ION-ICON") {
+                            e.target.parentElement.parentElement.setAttribute(
+                              "disabled",
+                              ""
+                            );
+                            e.target.parentElement.parentElement.style.color =
+                              "#03a9f4";
+                          } else {
+                            e.target.parentElement.setAttribute("disabled", "");
+                            e.target.parentElement.style.color = "#03a9f4";
+                          }
+                          setDownvotes(downvotes + 1);
+                        }).catch(()=>{
+                          Swal.fire({
+                            
+                            icon: "error",
+                            title: "Failed to connect",
+                            showConfirmButton: true
+                          });
                         });
                       }
                     }}
                   >
-                    <ion-icon
-                      id="downvote"
-                      name="arrow-down-outline"
-                    ></ion-icon>
+                    <span>
+                      <ion-icon name="arrow-down-outline"></ion-icon>
+                    </span>
                     <span className="ms-2">{downvotes}</span>
                   </button>
                 </div>
               </div>
               <h5 className="card-title my-2">{commentObj.user_Name}</h5>
               <p className="card-text">{commentObj.comment_Description}</p>
-              {/* <button
-                className="btn text-light"
-                onClick={() => {
-                  // if( inputBoxRef.current === 'none' ){
-                  inputBoxRef.current = "revert";
-                  buttonRef.current = "revert";
-                  // }
-                  // else{
-                  //   inputBoxRef.current = 'none';
-                  //   buttonRef.current = 'none';
-                  // }
-                }}
-              >
-                <ion-icon name="arrow-redo-outline"></ion-icon>
-              </button> */}
               <button
                 className="btn btn-outline-light"
                 onClick={(e) => {
@@ -252,7 +282,14 @@ const Comment = ({ commentObj }) => {
                       }
                     ).then((res) => {
                       setCommentReply("");
-                    });
+                    }).catch(()=>{
+                      Swal.fire({
+                        
+                        icon: "error",
+                        title: "Failed to connect",
+                        showConfirmButton: true
+                      });
+                    });;
                   }
                 }}
               >
