@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Blogs from "./components/Blogs";
 import SignUp from "./components/SignUp";
 import AddPost from "./components/AddPost";
+import EditComment from "./components/EditComment";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/blogs" element={<Blogs />}></Route>
             <Route path="/addPost" element={<AddPost />}></Route>
+            <Route path="/editcomment/:id" element={<EditComment />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

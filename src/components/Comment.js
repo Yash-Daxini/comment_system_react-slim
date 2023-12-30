@@ -19,14 +19,14 @@ const Comment = ({ commentObj }) => {
       .then((data) => {
         setComments(data);
         setIsLoading(false);
-      }).catch(()=>{
+      })
+      .catch(() => {
         Swal.fire({
-          
           icon: "error",
           title: "Failed to connect",
-          showConfirmButton: true
+          showConfirmButton: true,
         });
-      });;
+      });
   }, [commentReply, navigate, showReply]);
 
   let giveReplysOfEachComment = (commetnId) => {
@@ -86,30 +86,45 @@ const Comment = ({ commentObj }) => {
                         {
                           method: "DELETE",
                         }
-                      ).then((res) => {
-                        Swal.fire({
-                          position: "top-end",
-                          icon: "success",
-                          title: "Comment Deleted successfully !",
-                          showConfirmButton: false,
-                          timer: 2500,
+                      )
+                        .then((res) => {
+                          Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Comment Deleted successfully !",
+                            showConfirmButton: false,
+                            timer: 2500,
+                          });
+                          setTimeout(() => {
+                            navigate("/blogs");
+                          }, 100);
+                        })
+                        .catch(() => {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Failed to connect",
+                            showConfirmButton: true,
+                          });
                         });
-                        setTimeout(() => {
-                          navigate("/blogs");
-                        }, 100);
-                      }).catch(()=>{
-                        Swal.fire({
-                          
-                          icon: "error",
-                          title: "Failed to connect",
-                          showConfirmButton: true
-                        });
-                      });
                     }
                   }}
                 >
                   <ion-icon name="trash-outline"></ion-icon>
                 </button>
+                <div className="w-25">
+                  <button
+                    className="btn btn-outline-info mb-3 w-100"
+                    onClick={(e) => {
+                      if (sessionStorage.getItem("user") === null)
+                        navigate("/login");
+                      else {
+                        navigate(`/editcomment/${commentObj.comment_Id}`)
+                      }
+                    }}
+                  >
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                </div>
                 <div className="w-25">
                   <button
                     className="btn btn-dark"
@@ -130,30 +145,34 @@ const Comment = ({ commentObj }) => {
                               upvotes: upvotes + 1,
                             }),
                           }
-                        ).then((res) => {
-                          if (e.target.tagName === "BUTTON") {
-                            e.target.setAttribute("disabled", "");
-                            e.target.style.color = "#03a9f4";
-                          } else if (e.target.tagName === "ION-ICON") {
-                            e.target.parentElement.parentElement.setAttribute(
-                              "disabled",
-                              ""
-                            );
-                            e.target.parentElement.parentElement.style.color =
-                              "#03a9f4";
-                          } else {
-                            e.target.parentElement.setAttribute("disabled", "");
-                            e.target.parentElement.style.color = "#03a9f4";
-                          }
-                          setUpvotes(upvotes + 1);
-                        }).catch(()=>{
-                          Swal.fire({
-                            
-                            icon: "error",
-                            title: "Failed to connect",
-                            showConfirmButton: true
+                        )
+                          .then((res) => {
+                            if (e.target.tagName === "BUTTON") {
+                              e.target.setAttribute("disabled", "");
+                              e.target.style.color = "#03a9f4";
+                            } else if (e.target.tagName === "ION-ICON") {
+                              e.target.parentElement.parentElement.setAttribute(
+                                "disabled",
+                                ""
+                              );
+                              e.target.parentElement.parentElement.style.color =
+                                "#03a9f4";
+                            } else {
+                              e.target.parentElement.setAttribute(
+                                "disabled",
+                                ""
+                              );
+                              e.target.parentElement.style.color = "#03a9f4";
+                            }
+                            setUpvotes(upvotes + 1);
+                          })
+                          .catch(() => {
+                            Swal.fire({
+                              icon: "error",
+                              title: "Failed to connect",
+                              showConfirmButton: true,
+                            });
                           });
-                        });;
                       }
                     }}
                   >
@@ -183,30 +202,34 @@ const Comment = ({ commentObj }) => {
                               downvotes: downvotes + 1,
                             }),
                           }
-                        ).then((res) => {
-                          if (e.target.tagName === "BUTTON") {
-                            e.target.setAttribute("disabled", "");
-                            e.target.style.color = "#03a9f4";
-                          } else if (e.target.tagName === "ION-ICON") {
-                            e.target.parentElement.parentElement.setAttribute(
-                              "disabled",
-                              ""
-                            );
-                            e.target.parentElement.parentElement.style.color =
-                              "#03a9f4";
-                          } else {
-                            e.target.parentElement.setAttribute("disabled", "");
-                            e.target.parentElement.style.color = "#03a9f4";
-                          }
-                          setDownvotes(downvotes + 1);
-                        }).catch(()=>{
-                          Swal.fire({
-                            
-                            icon: "error",
-                            title: "Failed to connect",
-                            showConfirmButton: true
+                        )
+                          .then((res) => {
+                            if (e.target.tagName === "BUTTON") {
+                              e.target.setAttribute("disabled", "");
+                              e.target.style.color = "#03a9f4";
+                            } else if (e.target.tagName === "ION-ICON") {
+                              e.target.parentElement.parentElement.setAttribute(
+                                "disabled",
+                                ""
+                              );
+                              e.target.parentElement.parentElement.style.color =
+                                "#03a9f4";
+                            } else {
+                              e.target.parentElement.setAttribute(
+                                "disabled",
+                                ""
+                              );
+                              e.target.parentElement.style.color = "#03a9f4";
+                            }
+                            setDownvotes(downvotes + 1);
+                          })
+                          .catch(() => {
+                            Swal.fire({
+                              icon: "error",
+                              title: "Failed to connect",
+                              showConfirmButton: true,
+                            });
                           });
-                        });
                       }
                     }}
                   >
@@ -280,16 +303,17 @@ const Comment = ({ commentObj }) => {
                             .replace("T", " "),
                         }),
                       }
-                    ).then((res) => {
-                      setCommentReply("");
-                    }).catch(()=>{
-                      Swal.fire({
-                        
-                        icon: "error",
-                        title: "Failed to connect",
-                        showConfirmButton: true
+                    )
+                      .then((res) => {
+                        setCommentReply("");
+                      })
+                      .catch(() => {
+                        Swal.fire({
+                          icon: "error",
+                          title: "Failed to connect",
+                          showConfirmButton: true,
+                        });
                       });
-                    });;
                   }
                 }}
               >

@@ -66,7 +66,7 @@ const Login = () => {
                   navigate("/");
                   sessionStorage.setItem("userId", user.userId);
                   sessionStorage.setItem("user", user.user_Name);
-                  sessionStorage.setItem("password", user.password);
+                  // sessionStorage.setItem("password", user.password);
                   Swal.fire({
                     position: "top-end",
                     icon: "success",
