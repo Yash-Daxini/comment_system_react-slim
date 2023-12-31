@@ -25,7 +25,7 @@ const AddPost = () => {
         <button
           className="btn btn-outline-success"
           onClick={() => {
-            fetch("https://comment-system-backend.onrender.com/Routes/post", {
+            fetch("http://localhost:8000/Routes/post", {
               method: "POST",
               headers: {
                 Accept: "application/json",

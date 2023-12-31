@@ -136,7 +136,7 @@ body {
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid #444;
-    z-index: 9999;
+    /* z-index: 9999; */
     top: -20px;
     left: 0px;
 }

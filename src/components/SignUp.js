@@ -55,7 +55,7 @@ const SignUp = () => {
           <button
             className="btn btn-outline-light fw-bold"
             onClick={(e) => {
-              fetch("https://comment-system-backend.onrender.com/Routes/user", {
+              fetch("http://localhost:8000/Routes/user", {
                 method: "POST",
                 headers: {
                   Accept: "application/json",

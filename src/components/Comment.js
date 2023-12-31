@@ -1,4 +1,5 @@
-import React from "react";
+import moment from "moment";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,8 +12,10 @@ const Comment = ({ commentObj }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showReply, setShowReply] = useState(false);
+  const updateButton = useRef(null);
+  const curComment = useRef(null);
   useEffect(() => {
-    fetch("https://comment-system-backend.onrender.com/Routes/comment")
+    fetch("http://localhost:8000/Routes/comment")
       .then((res) => {
         return res.json();
       })
@@ -27,7 +30,7 @@ const Comment = ({ commentObj }) => {
           showConfirmButton: true,
         });
       });
-  }, [commentReply, navigate, showReply]);
+  }, [commentReply, navigate, showReply, updateButton]);
 
   let giveReplysOfEachComment = (commetnId) => {
     return comments
@@ -40,6 +43,32 @@ const Comment = ({ commentObj }) => {
         );
       });
   };
+
+  let curDate = new Date(moment().format("YYYY-MM-DD h:mm:ss"));
+  let postDate = new Date(
+    moment(commentObj.creation_Date).format("YYYY-MM-DD h:mm:ss")
+  );
+
+  let diff = 0;
+  if (curDate.getDate() !== postDate.getDate()) {
+    if (updateButton.current) {
+      updateButton.current.style.display = "none";
+    }
+  } else diff = curDate.getTime() - postDate.getTime();
+
+  if (diff > 300000) {
+    if (updateButton.current) {
+      updateButton.current.style.display = "none";
+    }
+  }
+
+  if (diff <= 300000 && updateButton.current !== "none") {
+    setTimeout(() => {
+      if (updateButton.current) {
+        updateButton.current.style.display = "none";
+      }
+    }, 300000 - diff);
+  }
   return (
     <>
       {isLoading ? (
@@ -70,7 +99,7 @@ const Comment = ({ commentObj }) => {
           </div>
         </div>
       ) : (
-        <div className="container">
+        <div className="container" ref={curComment}>
           <div className="comment mb-3 border-light p-2">
             <span id="commentSpan"></span>
             <div className="card-body">
@@ -80,9 +109,18 @@ const Comment = ({ commentObj }) => {
                   onClick={() => {
                     if (sessionStorage.getItem("user") === null)
                       navigate("/login");
-                    else {
+                    else if (
+                      commentObj.userId !== sessionStorage.getItem("userId")
+                    ) {
+                      Swal.fire({
+                        icon: "error",
+                        title:
+                          "You can't delete this comment ! Because this not added by you.",
+                        showConfirmButton: true,
+                      });
+                    } else {
                       fetch(
-                        `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
+                        `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
                         {
                           method: "DELETE",
                         }
@@ -95,9 +133,7 @@ const Comment = ({ commentObj }) => {
                             showConfirmButton: false,
                             timer: 2500,
                           });
-                          setTimeout(() => {
-                            navigate("/blogs");
-                          }, 100);
+                          curComment.current.style.display = "none";
                         })
                         .catch(() => {
                           Swal.fire({
@@ -113,12 +149,22 @@ const Comment = ({ commentObj }) => {
                 </button>
                 <div className="w-25">
                   <button
+                    ref={updateButton}
                     className="btn btn-outline-info mb-3 w-100"
                     onClick={(e) => {
                       if (sessionStorage.getItem("user") === null)
                         navigate("/login");
-                      else {
-                        navigate(`/editcomment/${commentObj.comment_Id}`)
+                      else if (
+                        commentObj.userId !== sessionStorage.getItem("userId")
+                      ) {
+                        Swal.fire({
+                          icon: "error",
+                          title:
+                            "You can't update this comment ! Because this not added by you.",
+                          showConfirmButton: true,
+                        });
+                      } else {
+                        navigate(`/editcomment/${commentObj.comment_Id}`);
                       }
                     }}
                   >
@@ -133,7 +179,7 @@ const Comment = ({ commentObj }) => {
                         navigate("/login");
                       else {
                         fetch(
-                          `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
+                          `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
                           {
                             method: "PUT",
                             headers: {
@@ -190,7 +236,7 @@ const Comment = ({ commentObj }) => {
                         navigate("/login");
                       else {
                         fetch(
-                          `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
+                          `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
                           {
                             method: "PUT",
                             headers: {
@@ -240,21 +286,18 @@ const Comment = ({ commentObj }) => {
                   </button>
                 </div>
               </div>
-              <h5 className="card-title my-2">{commentObj.user_Name}</h5>
-              <p className="card-text">{commentObj.comment_Description}</p>
+              <p className="card-text my-3">{commentObj.comment_Description}</p>
+              <footer className="blockquote-footer my-3 fs-3">
+                {commentObj.user_Name}
+              </footer>
               <button
                 className="btn btn-outline-light"
                 onClick={(e) => {
-                  if (!showReply) {
-                    setShowReply(true);
-                    e.target.innerText = "Hide reply";
-                  } else {
-                    setShowReply(false);
-                    e.target.innerText = "See reply";
-                  }
+                  setShowReply(!showReply);
+                  e.target.innerText = !showReply ? "Hide reply" : "See reply";
                 }}
               >
-                See reply
+                {showReply ? "Hide reply" : "See reply"}
               </button>
             </div>
           </div>
@@ -278,34 +321,27 @@ const Comment = ({ commentObj }) => {
                   if (sessionStorage.getItem("user") === null)
                     navigate("/login");
                   else {
-                    fetch(
-                      "https://comment-system-backend.onrender.com/Routes/comment",
-                      {
-                        method: "POST",
-                        headers: {
-                          Accept: "application/json",
-                          "Content-type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          comment_Description: commentReply,
-                          userId: sessionStorage.getItem("userId"),
-                          upvotes: 0,
-                          downvotes: 0,
-                          postId: commentObj.postId,
-                          parentComment_Id: commentObj.comment_Id,
-                          creation_Date: new Date()
-                            .toJSON()
-                            .slice(0, 19)
-                            .replace("T", " "),
-                          modification_Date: new Date()
-                            .toJSON()
-                            .slice(0, 19)
-                            .replace("T", " "),
-                        }),
-                      }
-                    )
+                    fetch("http://localhost:8000/Routes/comment", {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json",
+                        "Content-type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        comment_Description: commentReply,
+                        userId: sessionStorage.getItem("userId"),
+                        upvotes: 0,
+                        downvotes: 0,
+                        postId: commentObj.postId,
+                        parentComment_Id: commentObj.comment_Id,
+                        creation_Date: moment().format("YYYY-MM-DD h:mm:ss"),
+                        modification_Date:
+                          moment().format("YYYY-MM-DD h:mm:ss"),
+                      }),
+                    })
                       .then((res) => {
                         setCommentReply("");
+                        setShowReply(true);
                       })
                       .catch(() => {
                         Swal.fire({

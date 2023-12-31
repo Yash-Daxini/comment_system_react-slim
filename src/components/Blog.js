@@ -2,29 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Comment from "./Comment";
+import moment from "moment";
 
 const Blog = ({ blogObj }) => {
   const [commentReply, setCommentReply] = useState("");
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  useEffect(() => {
-    fetch("https://comment-system-backend.onrender.com/Routes/comment")
+
+  const fetchData = (id) => {
+    fetch("http://localhost:8000/Routes/comment")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        setComments(data);
+        console.warn("come");
+        console.warn(id);
+        console.warn(data.filter((comment)=>comment.comment_Id === id))
+        setComments(data.filter((comment)=>comment.comment_Id !== id));
         setIsLoading(false);
       })
       .catch(() => {
         Swal.fire({
-          
           icon: "error",
           title: "Failed to connect",
           showConfirmButton: true,
         });
       });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [commentReply, navigate]);
 
   let commentsByPost = comments
@@ -101,7 +109,7 @@ const Blog = ({ blogObj }) => {
                     navigate("/login");
                   else {
                     fetch(
-                      `https://comment-system-backend.onrender.com/Routes/post/${blogObj.postId}`,
+                      `http://localhost:8000/Routes/post/${blogObj.postId}`,
                       {
                         method: "DELETE",
                       }
@@ -121,7 +129,6 @@ const Blog = ({ blogObj }) => {
                       })
                       .catch(() => {
                         Swal.fire({
-                          
                           icon: "error",
                           title: "Failed to connect",
                           showConfirmButton: true,
@@ -164,48 +171,41 @@ const Blog = ({ blogObj }) => {
                     if (sessionStorage.getItem("user") === null)
                       navigate("/login");
                     else {
-                      fetch(
-                        "https://comment-system-backend.onrender.com/Routes/comment",
-                        {
-                          method: "POST",
-                          headers: {
-                            Accept: "application/json",
-                            "Content-type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            comment_Description: commentReply,
-                            userId: sessionStorage.getItem("userId"),
-                            upvotes: 0,
-                            downvotes: 0,
-                            postId: blogObj.postId,
-                            parentCommentId: null,
-                            creation_Date: new Date()
-                              .toJSON()
-                              .slice(0, 19)
-                              .replace("T", " "),
-                            modification_Date: new Date()
-                              .toJSON()
-                              .slice(0, 19)
-                              .replace("T", " "),
-                          }),
-                        }
-                      ).then((res) => {
-                        Swal.fire({
-                          position: "top-end",
-                          icon: "success",
-                          title: "Comment Deleted successfully !",
-                          showConfirmButton: false,
-                          timer: 2500,
-                        }).catch(() => {
+                      fetch("http://localhost:8000/Routes/comment", {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          comment_Description: commentReply,
+                          userId: sessionStorage.getItem("userId"),
+                          upvotes: 0,
+                          downvotes: 0,
+                          postId: blogObj.postId,
+                          parentCommentId: null,
+                          creation_Date: moment().format("YYYY-MM-DD h:mm:ss"),
+                          modification_Date:
+                            moment().format("YYYY-MM-DD h:mm:ss"),
+                        }),
+                      })
+                        .then((res) => {
+                          setCommentReply("");
                           Swal.fire({
-                            
+                            position: "top-end",
+                            icon: "success",
+                            title: "Comment Added successfully !",
+                            showConfirmButton: false,
+                            timer: 2500,
+                          });
+                        })
+                        .catch((err) => {
+                          Swal.fire({
                             icon: "error",
                             title: "Failed to connect",
                             showConfirmButton: true,
                           });
                         });
-                        setCommentReply("");
-                      });
                     }
                   }}
                 >

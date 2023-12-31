@@ -8,7 +8,10 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <Link className="navbar-brand text-white" to="/">
-            Blog Post - Comment System
+            Comment System
+          </Link>
+          <Link className="nav-link text-white ms-5" to="/Blogs">
+            Blogs
           </Link>
           <button
             className="navbar-toggler"

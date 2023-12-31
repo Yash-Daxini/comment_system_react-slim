@@ -8,16 +8,15 @@ const Blogs = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch("https://comment-system-backend.onrender.com/Routes/post")
+    fetch("http://localhost:8000/Routes/post")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setBlogs(data);
         setIsLoading(false);
-      }).catch(()=>{
+      }).catch((err)=>{
         Swal.fire({
-          
           icon: "error",
           title: "Failed to connect",
           showConfirmButton: true
