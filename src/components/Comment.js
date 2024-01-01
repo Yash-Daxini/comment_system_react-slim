@@ -15,7 +15,7 @@ const Comment = ({ commentObj }) => {
   const updateButton = useRef(null);
   const curComment = useRef(null);
   useEffect(() => {
-    fetch("http://localhost:8000/Routes/comment")
+    fetch("https://comment-system-backend.onrender.com/Routes/comment")
       .then((res) => {
         return res.json();
       })
@@ -120,7 +120,7 @@ const Comment = ({ commentObj }) => {
                       });
                     } else {
                       fetch(
-                        `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
+                        `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
                         {
                           method: "DELETE",
                         }
@@ -179,7 +179,7 @@ const Comment = ({ commentObj }) => {
                         navigate("/login");
                       else {
                         fetch(
-                          `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
+                          `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
                           {
                             method: "PUT",
                             headers: {
@@ -236,7 +236,7 @@ const Comment = ({ commentObj }) => {
                         navigate("/login");
                       else {
                         fetch(
-                          `http://localhost:8000/Routes/comment/${commentObj.comment_Id}`,
+                          `https://comment-system-backend.onrender.com/Routes/comment/${commentObj.comment_Id}`,
                           {
                             method: "PUT",
                             headers: {
@@ -321,7 +321,7 @@ const Comment = ({ commentObj }) => {
                   if (sessionStorage.getItem("user") === null)
                     navigate("/login");
                   else {
-                    fetch("http://localhost:8000/Routes/comment", {
+                    fetch("https://comment-system-backend.onrender.com/Routes/comment", {
                       method: "POST",
                       headers: {
                         Accept: "application/json",

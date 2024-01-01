@@ -55,31 +55,32 @@ const SignUp = () => {
           <button
             className="btn btn-outline-light fw-bold"
             onClick={(e) => {
-              fetch("http://localhost:8000/Routes/user", {
+              fetch("https://comment-system-backend.onrender.com/Routes/user", {
                 method: "POST",
                 headers: {
                   Accept: "application/json",
                   "Content-type": "application/json",
                 },
                 body: JSON.stringify(singupDetails),
-              }).then((res) => {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Registerd Successfully !",
-                  showConfirmButton: false,
-                  timer: 2500,
-                }).catch(() => {
+              })
+                .then((res) => {
                   Swal.fire({
-                    
+                    position: "top-end",
+                    icon: "success",
+                    title: "Registerd Successfully !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                  });
+                })
+                .catch(() => {
+                  Swal.fire({
                     icon: "error",
                     title: "Failed to connect",
                     showConfirmButton: true,
                   });
+                  setSingupDetails({});
+                  navigate("/");
                 });
-                setSingupDetails({});
-                navigate("/");
-              });
             }}
           >
             SignUp

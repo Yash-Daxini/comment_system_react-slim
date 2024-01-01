@@ -8,7 +8,7 @@ const Blogs = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:8000/Routes/post")
+    fetch("https://comment-system-backend.onrender.com/Routes/post")
       .then((res) => {
         return res.json();
       })

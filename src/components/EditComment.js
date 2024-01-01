@@ -10,7 +10,7 @@ const EditComment = () => {
   const idOfComment = params.id;
   useEffect(() => {
     fetch(
-      `http://localhost:8000/Routes/comment/${params.id}`
+      `https://comment-system-backend.onrender.com/Routes/comment/${params.id}`
     )
       .then((res) => {
         return res.json();
@@ -49,7 +49,7 @@ const EditComment = () => {
             if (sessionStorage.getItem("user") === null) navigate("/login");
             else {
               fetch(
-                `http://localhost:8000/Routes/comment/${idOfComment}`,
+                `https://comment-system-backend.onrender.com/Routes/comment/${idOfComment}`,
                 {
                   method: "PUT",
                   headers: {

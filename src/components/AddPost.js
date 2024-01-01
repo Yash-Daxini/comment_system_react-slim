@@ -25,7 +25,7 @@ const AddPost = () => {
         <button
           className="btn btn-outline-success"
           onClick={() => {
-            fetch("http://localhost:8000/Routes/post", {
+            fetch("https://comment-system-backend.onrender.com/Routes/post", {
               method: "POST",
               headers: {
                 Accept: "application/json",
@@ -43,23 +43,24 @@ const AddPost = () => {
                   .slice(0, 19)
                   .replace("T", " "),
               }),
-            }).then((res) => {
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Post added Successfully !",
-                showConfirmButton: false,
-                timer: 2500,
-              }).catch(() => {
+            })
+              .then((res) => {
                 Swal.fire({
-                  
+                  position: "top-end",
+                  icon: "success",
+                  title: "Post added Successfully !",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+              })
+              .catch(() => {
+                Swal.fire({
                   icon: "error",
                   title: "Failed to connect",
                   showConfirmButton: true,
                 });
+                navigate("/blogs");
               });
-              navigate("/blogs");
-            });
           }}
         >
           Add post

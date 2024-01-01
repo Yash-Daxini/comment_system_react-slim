@@ -7,7 +7,7 @@ const Login = () => {
   const [users, setusers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:8000/Routes/user")
+    fetch("https://comment-system-backend.onrender.com/Routes/user")
       .then((res) => {
         return res.json();
       })
