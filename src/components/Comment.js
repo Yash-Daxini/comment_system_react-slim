@@ -103,7 +103,7 @@ const Comment = ({ commentObj }) => {
           <div className="comment mb-3 border-light p-2">
             <span id="commentSpan"></span>
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center gap-5 w-100">
+              <div className="d-flex justify-content-center align-items-center gap-2 w-100 flex-wrap">
                 <button
                   className="btn btn-outline-danger mb-3 w-25"
                   onClick={() => {
@@ -147,10 +147,10 @@ const Comment = ({ commentObj }) => {
                 >
                   <ion-icon name="trash-outline"></ion-icon>
                 </button>
-                <div className="w-25">
+                <div className="">
                   <button
                     ref={updateButton}
-                    className="btn btn-outline-info mb-3 w-100"
+                    className="btn btn-outline-info mb-3"
                     onClick={(e) => {
                       if (sessionStorage.getItem("user") === null)
                         navigate("/login");
@@ -171,7 +171,7 @@ const Comment = ({ commentObj }) => {
                     <ion-icon name="create-outline"></ion-icon>
                   </button>
                 </div>
-                <div className="w-25">
+                <div className="width25per">
                   <button
                     className="btn btn-dark"
                     onClick={(e) => {
@@ -228,7 +228,7 @@ const Comment = ({ commentObj }) => {
                     <span className="ms-2">{upvotes}</span>
                   </button>
                 </div>
-                <div className="w-25">
+                <div className="width25per">
                   <button
                     className="btn btn-dark"
                     onClick={(e) => {

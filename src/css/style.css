@@ -140,6 +140,9 @@ body {
     top: -20px;
     left: 0px;
 }
+.width25per{
+    width: 25%;
+}
 
 @media (max-width:1000px) {
     .comment {
@@ -165,6 +168,10 @@ body {
 @media (max-width:400px) {
     .comment {
         font-size: 8px;
-        width: 260px;
+        width: 270px;
+    }
+    .width25per{
+        width: 2px;
+        margin-left: 40px;
     }
 }
