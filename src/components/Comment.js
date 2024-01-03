@@ -44,9 +44,9 @@ const Comment = ({ commentObj }) => {
       });
   };
 
-  let curDate = new Date(moment().format("YYYY-MM-DD h:mm:ss"));
+  let curDate = new Date(moment().format("YYYY-MM-DD HH:mm:ss"));
   let postDate = new Date(
-    moment(commentObj.creation_Date).format("YYYY-MM-DD h:mm:ss")
+    moment(commentObj.creation_Date).format("YYYY-MM-DD HH:mm:ss")
   );
 
   let diff = 0;
@@ -103,6 +103,11 @@ const Comment = ({ commentObj }) => {
           <div className="comment mb-3 border-light p-2">
             <span id="commentSpan"></span>
             <div className="card-body">
+              <div className="d-flex justify-content-end align-items-center">
+                <p>
+                  {moment(moment(commentObj.creation_Date).format("YYYY-MM-DD HH:mm:ss a"),'YYYY-MM-DD HH:mm:ss a').fromNow()}
+                </p>
+              </div>
               <div className="d-flex justify-content-center align-items-center gap-2 w-100 flex-wrap">
                 <button
                   className="btn btn-outline-danger mb-3 w-25"
@@ -321,24 +326,27 @@ const Comment = ({ commentObj }) => {
                   if (sessionStorage.getItem("user") === null)
                     navigate("/login");
                   else {
-                    fetch("https://comment-system-backend.onrender.com/Routes/comment", {
-                      method: "POST",
-                      headers: {
-                        Accept: "application/json",
-                        "Content-type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        comment_Description: commentReply,
-                        userId: sessionStorage.getItem("userId"),
-                        upvotes: 0,
-                        downvotes: 0,
-                        postId: commentObj.postId,
-                        parentComment_Id: commentObj.comment_Id,
-                        creation_Date: moment().format("YYYY-MM-DD h:mm:ss"),
-                        modification_Date:
-                          moment().format("YYYY-MM-DD h:mm:ss"),
-                      }),
-                    })
+                    fetch(
+                      "https://comment-system-backend.onrender.com/Routes/comment",
+                      {
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          comment_Description: commentReply,
+                          userId: sessionStorage.getItem("userId"),
+                          upvotes: 0,
+                          downvotes: 0,
+                          postId: commentObj.postId,
+                          parentComment_Id: commentObj.comment_Id,
+                          creation_Date: moment().format("YYYY-MM-DD HH:mm:ss"),
+                          modification_Date:
+                            moment().format("YYYY-MM-DD HH:mm:ss"),
+                        }),
+                      }
+                    )
                       .then((res) => {
                         setCommentReply("");
                         setShowReply(true);

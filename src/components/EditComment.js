@@ -58,7 +58,7 @@ const EditComment = () => {
                   },
                   body: JSON.stringify({
                     ...comment,
-                    modification_Date: moment().format('YYYY-MM-DD h:mm:ss'),
+                    modification_Date: moment().format('YYYY-MM-DD HH:mm:ss'),
                   }),
                 }
               )
