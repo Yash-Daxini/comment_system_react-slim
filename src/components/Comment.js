@@ -12,7 +12,8 @@ const Comment = ({ commentObj }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showReply, setShowReply] = useState(false);
-  const updateButton = useRef(null);
+  const [isShowUpdateBtn, setIsShowUpdateBtn] = useState(true);
+  // const isShowUpdateButton = useRef(true);
   const curComment = useRef(null);
   useEffect(() => {
     fetch("https://comment-system-backend.onrender.com/Routes/comment")
@@ -30,7 +31,7 @@ const Comment = ({ commentObj }) => {
           showConfirmButton: true,
         });
       });
-  }, [commentReply, navigate, showReply, updateButton]);
+  }, [commentReply, navigate, showReply]);
 
   let giveReplysOfEachComment = (commetnId) => {
     return comments
@@ -51,24 +52,28 @@ const Comment = ({ commentObj }) => {
 
   let diff = 0;
   if (curDate.getDate() !== postDate.getDate()) {
-    if (updateButton.current) {
-      updateButton.current.style.display = "none";
+    if (isShowUpdateBtn) {
+      setIsShowUpdateBtn(false);
     }
   } else diff = curDate.getTime() - postDate.getTime();
 
   if (diff > 300000) {
-    if (updateButton.current) {
-      updateButton.current.style.display = "none";
+    if (isShowUpdateBtn) {
+      setIsShowUpdateBtn(false);
     }
   }
 
-  if (diff <= 300000 && updateButton.current !== "none") {
+  if (diff <= 300000 && isShowUpdateBtn) {
     setTimeout(() => {
-      if (updateButton.current) {
-        updateButton.current.style.display = "none";
+      if (isShowUpdateBtn) {
+        setIsShowUpdateBtn(false);
+        
       }
-    }, 300000 - diff);
+    }, 270000 - diff);
   }
+
+  
+
   return (
     <>
       {isLoading ? (
@@ -105,7 +110,12 @@ const Comment = ({ commentObj }) => {
             <div className="card-body">
               <div className="d-flex justify-content-end align-items-center">
                 <p>
-                  {moment(moment(commentObj.creation_Date).format("YYYY-MM-DD HH:mm:ss a"),'YYYY-MM-DD HH:mm:ss a').fromNow()}
+                  {moment(
+                    moment(commentObj.creation_Date).format(
+                      "YYYY-MM-DD HH:mm:ss a"
+                    ),
+                    "YYYY-MM-DD HH:mm:ss a"
+                  ).fromNow()}
                 </p>
               </div>
               <div className="d-flex justify-content-center align-items-center gap-2 w-100 flex-wrap">
@@ -153,28 +163,31 @@ const Comment = ({ commentObj }) => {
                   <ion-icon name="trash-outline"></ion-icon>
                 </button>
                 <div className="">
-                  <button
-                    ref={updateButton}
-                    className="btn btn-outline-info mb-3"
-                    onClick={(e) => {
-                      if (sessionStorage.getItem("user") === null)
-                        navigate("/login");
-                      else if (
-                        commentObj.userId !== sessionStorage.getItem("userId")
-                      ) {
-                        Swal.fire({
-                          icon: "error",
-                          title:
-                            "You can't update this comment ! Because this not added by you.",
-                          showConfirmButton: true,
-                        });
-                      } else {
-                        navigate(`/editcomment/${commentObj.comment_Id}`);
-                      }
-                    }}
-                  >
-                    <ion-icon name="create-outline"></ion-icon>
-                  </button>
+                  {isShowUpdateBtn ? (
+                    <button
+                      className="btn btn-outline-info mb-3"
+                      onClick={(e) => {
+                        if (sessionStorage.getItem("user") === null)
+                          navigate("/login");
+                        else if (
+                          commentObj.userId !== sessionStorage.getItem("userId")
+                        ) {
+                          Swal.fire({
+                            icon: "error",
+                            title:
+                              "You can't update this comment ! Because this not added by you.",
+                            showConfirmButton: true,
+                          });
+                        } else {
+                          navigate(`/editcomment/${commentObj.comment_Id}`);
+                        }
+                      }}
+                    >
+                      <ion-icon name="create-outline"></ion-icon>
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
                 <div className="width25per">
                   <button
@@ -342,8 +355,9 @@ const Comment = ({ commentObj }) => {
                           postId: commentObj.postId,
                           parentComment_Id: commentObj.comment_Id,
                           creation_Date: moment().format("YYYY-MM-DD HH:mm:ss"),
-                          modification_Date:
-                            moment().format("YYYY-MM-DD HH:mm:ss"),
+                          modification_Date: moment().format(
+                            "YYYY-MM-DD HH:mm:ss"
+                          ),
                         }),
                       }
                     )
