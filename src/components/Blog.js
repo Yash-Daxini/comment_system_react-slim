@@ -137,7 +137,14 @@ const Blog = ({ blogObj }) => {
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
               <div>
-                <p>{moment(moment(blogObj.creation_Date).format("YYYY-MM-DD HH:mm:ss a"),'YYYY-MM-DD HH:mm:ss a').fromNow()}</p>
+                <p>
+                  {moment(
+                    moment(blogObj.creation_Date).format(
+                      "YYYY-MM-DD HH:mm:ss a"
+                    ),
+                    "YYYY-MM-DD HH:mm:ss a"
+                  ).fromNow()}
+                </p>
               </div>
             </div>
             <div className="card-body">
@@ -185,11 +192,13 @@ const Blog = ({ blogObj }) => {
                             upvotes: 0,
                             downvotes: 0,
                             postId: blogObj.postId,
-                            parentCommentId: null,
-                            creation_Date:
-                              moment().format("YYYY-MM-DD HH:mm:ss"),
-                            modification_Date:
-                              moment().format("YYYY-MM-DD HH:mm:ss"),
+                            parentComment_Id: null,
+                            creation_Date: moment().format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            ),
+                            modification_Date: moment().format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            ),
                           }),
                         }
                       )
