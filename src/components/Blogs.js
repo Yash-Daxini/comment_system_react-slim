@@ -15,11 +15,12 @@ const Blogs = () => {
       .then((data) => {
         setBlogs(data);
         setIsLoading(false);
-      }).catch((err)=>{
+      })
+      .catch((err) => {
         Swal.fire({
           icon: "error",
           title: "Failed to connect",
-          showConfirmButton: true
+          showConfirmButton: true,
         });
       });
   }, []);
@@ -36,14 +37,29 @@ const Blogs = () => {
     <>
       {isLoading ? (
         <>
-          <div className="container d-flex justify-content-center align-items-center flex-column placeholder-glow">
+          <div className="container d-flex justify-content-center align-items-center flex-column placeholder-glow w-100">
             <span className="placeholder col-1 my-5"></span>
-            <div className="placeholder-glow d-flex justify-content-center align-items-start placeholder-glow flex-column w-75"><span className="placeholder col-1 my-5"></span></div>
-            <div className="placeholder-glow d-flex justify-content-center align-items-end placeholder-glow flex-column w-100">
-              <div className="placeholder col-8 my-3 h-25"></div>
-              <div className="placeholder col-6 my-3 h-25"></div>
-              <div className="placeholder col-4 my-3 h-25"></div>
-              <div className="placeholder col-2 my-3 h-25"></div>
+            <div className="placeholder-glow card post border border-0 my-5 text-white w-100">
+              <div className="card-header d-flex justify-content-between">
+                <span className="placeholder col-1"></span>
+                <span className="placeholder col-1 h-50"></span>
+              </div>
+              <div className="text-center card-body">
+                <span className="placeholder col-4 h-50"></span>
+                <br></br>
+                <span className="placeholder col-3 h-50 my-3"></span>
+              </div>
+              <div className="text-center my-3">
+                <span className="placeholder col-2 h-50"></span>
+              </div>
+              <div className="d-flex justify-content-end me-2 align-items-center">
+                <div class="placeholder-glow form-floating mb-3 w-50 mx-5">
+                  <span className="placeholder col-12 ms-3"></span>
+                </div>
+                <div className="placeholder-glow w-25">
+                  <span className="placeholder col-2"></span>
+                </div>
+              </div>
             </div>
           </div>
         </>
