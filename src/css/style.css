@@ -70,14 +70,6 @@ body {
 
 /* Post and comment style */
 
-/* .container {
-    width: 600px;
-    background-color: #222;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-} */
-
 .post {
     background-color: #333;
     padding: 20px;
@@ -136,7 +128,6 @@ body {
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid #444;
-    /* z-index: 9999; */
     top: -20px;
     left: 0px;
 }
