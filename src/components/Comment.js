@@ -1,8 +1,10 @@
 import moment from "moment";
-import React, { useRef } from "react";
+import React from "react";
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { CommentUpdation } from "./Blog";
 
 const Comment = ({ commentObj }) => {
   const navigate = useNavigate();
@@ -13,8 +15,8 @@ const Comment = ({ commentObj }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showReply, setShowReply] = useState(false);
   const [isShowUpdateBtn, setIsShowUpdateBtn] = useState(true);
-  // const isShowUpdateButton = useRef(true);
-  const curComment = useRef(null);
+  const { commentsFromBlog, setCommentsFromBlog } = useContext(CommentUpdation);
+
   useEffect(() => {
     fetch("https://comment-system-backend.onrender.com/Routes/comment")
       .then((res) => {
@@ -67,12 +69,9 @@ const Comment = ({ commentObj }) => {
     setTimeout(() => {
       if (isShowUpdateBtn) {
         setIsShowUpdateBtn(false);
-        
       }
     }, 270000 - diff);
   }
-
-  
 
   return (
     <>
@@ -104,7 +103,7 @@ const Comment = ({ commentObj }) => {
           </div>
         </div>
       ) : (
-        <div className="container" ref={curComment}>
+        <div className="container">
           <div className="comment mb-3 border-light p-2">
             <span id="commentSpan"></span>
             <div className="card-body">
@@ -148,7 +147,12 @@ const Comment = ({ commentObj }) => {
                             showConfirmButton: false,
                             timer: 2500,
                           });
-                          curComment.current.style.display = "none";
+                          setCommentsFromBlog(
+                            commentsFromBlog.filter(
+                              (comment) =>
+                                comment.comment_Id !== commentObj.comment_Id
+                            )
+                          );
                         })
                         .catch(() => {
                           Swal.fire({

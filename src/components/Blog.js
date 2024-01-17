@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Comment from "./Comment";
 import moment from "moment";
+
+export const CommentUpdation = createContext(null);
 
 const Blog = ({ blogObj }) => {
   const [commentReply, setCommentReply] = useState("");
@@ -40,7 +42,9 @@ const Blog = ({ blogObj }) => {
     .map((comment) => {
       return (
         <>
-          <Comment commentObj={comment} />
+          <CommentUpdation.Provider value={{ comments, setComments }}>
+            <Comment commentObj={comment} />
+          </CommentUpdation.Provider>
         </>
       );
     });
